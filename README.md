@@ -39,7 +39,15 @@ Detection agreement, real vs rendered (class-agnostic, score ≥ 0.5, 2 m center
 
 Reading it: moving the sensor 3 m sideways costs about 4 F1 points (7% relative); raising it 1 m costs 6 — the vertical move hurts more than any lateral one, consistent with the detector's sensitivity to ground-plane height. Rendered detections are precise (0.74 → 0.67) more than they are complete (0.51 → 0.45): the re-simulation rarely invents objects, it drops some. All four threshold/matching variants are in [`results/run1/summary.md`](results/run1/summary.md); the ordering is the same in every one.
 
-The true-pose column is not 1.0 because it is a *held-out* scan (an interpolated novel view) and because the detector itself flickers on low-confidence objects; a same-sweep self-agreement floor is being measured (perturbed real sweeps: 1.2 cm range noise, then +6.5% dropout).
+**Why isn't the true-pose column 1.0?** Two reasons, now separated. A *noise floor* run perturbs each real sweep by exactly the renderer's measured geometric error (1.2 cm Gaussian range noise) and then also drops 6.5% of points (the renderer's ray-drop rate), and scores the detector against its own output on the untouched sweep:
+
+| perturbation of the real sweep | agreement F1 (score ≥ 0.5, class-agnostic) |
+|---|---|
+| 1.2 cm range noise | **0.93** [0.92, 0.94] |
+| 1.2 cm range noise + 6.5% dropout | **0.91** [0.89, 0.92] |
+| SplatAD re-simulation, true pose | 0.59 [0.57, 0.62] |
+
+So a renderer with *only* the measured geometric error and ray-drop rate would score ≈ 0.91; detector flicker explains under 10 F1 points. The remaining ~32 points between 0.91 and 0.59 are things chamfer-style metrics don't see — intensity texture, point-density micro-structure, whole objects going missing. That gap, not the geometry, is what a lidar re-simulator has to close to be trusted for perception testing. (The true-pose scan is also a held-out, interpolated view, so part of the gap is genuine novel-view error.)
 
 ### Does rendering fidelity predict downstream agreement?
 

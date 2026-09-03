@@ -1,0 +1,66 @@
+{
+ "floorA_noise1.2cm|thr0.3|class": {
+  "mean_f1": 0.913,
+  "ci": [
+   0.907,
+   0.92
+  ],
+  "n": 100
+ },
+ "floorB_noise+6.5pct_drop|thr0.3|class": {
+  "mean_f1": 0.873,
+  "ci": [
+   0.865,
+   0.882
+  ],
+  "n": 100
+ },
+ "floorA_noise1.2cm|thr0.3|any": {
+  "mean_f1": 0.917,
+  "ci": [
+   0.91,
+   0.923
+  ],
+  "n": 100
+ },
+ "floorB_noise+6.5pct_drop|thr0.3|any": {
+  "mean_f1": 0.878,
+  "ci": [
+   0.868,
+   0.887
+  ],
+  "n": 100
+ },
+ "floorA_noise1.2cm|thr0.5|class": {
+  "mean_f1": 0.935,
+  "ci": [
+   0.925,
+   0.943
+  ],
+  "n": 100
+ },
+ "floorB_noise+6.5pct_drop|thr0.5|class": {
+  "mean_f1": 0.905,
+  "ci": [
+   0.89,
+   0.917
+  ],
+  "n": 100
+ },
+ "floorA_noise1.2cm|thr0.5|any": {
+  "mean_f1": 0.929,
+  "ci": [
+   0.917,
+   0.94
+  ],
+  "n": 100
+ },
+ "floorB_noise+6.5pct_drop|thr0.5|any": {
+  "mean_f1": 0.906,
+  "ci": [
+   0.893,
+   0.919
+  ],
+  "n": 100
+ }
+}
