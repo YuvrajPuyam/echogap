@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 420" width="100%" font-family="Inter, 'Segoe UI', 'DejaVu Sans', sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5ee1ff"/>
+    </marker>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a2238"/><stop offset="1" stop-color="#111726"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="420" fill="#0b0f19"/>
+  <text x="700" y="44" text-anchor="middle" fill="#e6e9ef" font-size="26" font-weight="700">EchoGap — does re-simulated lidar still fool the detector?</text>
+  <text x="700" y="72" text-anchor="middle" fill="#8a93a6" font-size="14">an open detection-agreement benchmark for neural lidar re-simulation · PandaSet · SplatAD / NeuRAD · CenterPoint</text>
+
+  <!-- stage 1 -->
+  <g transform="translate(40,120)">
+    <rect width="250" height="200" rx="16" fill="url(#g1)" stroke="#2a3145"/>
+    <text x="125" y="34" text-anchor="middle" fill="#5ee1ff" font-size="13" letter-spacing="2">1 · RECONSTRUCT</text>
+    <text x="125" y="72" text-anchor="middle" fill="#e6e9ef" font-size="17" font-weight="600">real driving log</text>
+    <text x="125" y="96" text-anchor="middle" fill="#8a93a6" font-size="13">camera + Pandar64 lidar</text>
+    <text x="125" y="136" text-anchor="middle" fill="#e6e9ef" font-size="17" font-weight="600">→ 3D Gaussians</text>
+    <text x="125" y="160" text-anchor="middle" fill="#8a93a6" font-size="13">10 scenes · 30k iters each</text>
+    <text x="125" y="184" text-anchor="middle" fill="#8a93a6" font-size="13">1.2 cm median range error</text>
+  </g>
+  <line x1="300" y1="220" x2="356" y2="220" stroke="#5ee1ff" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- stage 2 -->
+  <g transform="translate(366,120)">
+    <rect width="250" height="200" rx="16" fill="url(#g1)" stroke="#2a3145"/>
+    <text x="125" y="34" text-anchor="middle" fill="#5ee1ff" font-size="13" letter-spacing="2">2 · MOVE THE SENSOR</text>
+    <text x="125" y="72" text-anchor="middle" fill="#e6e9ef" font-size="17" font-weight="600">re-render the sweep</text>
+    <text x="125" y="96" text-anchor="middle" fill="#8a93a6" font-size="13">same beam pattern, new pose</text>
+    <g transform="translate(60,118)">
+      <circle cx="0" cy="30" r="5" fill="#8a93a6"/>
+      <circle cx="40" cy="30" r="5" fill="#5ee1ff"/><circle cx="80" cy="30" r="5" fill="#5ee1ff"/><circle cx="120" cy="30" r="5" fill="#5ee1ff"/>
+      <circle cx="0" cy="0" r="5" fill="#ff5e7e"/>
+      <text x="0" y="56" text-anchor="middle" fill="#8a93a6" font-size="11">0 m</text>
+      <text x="40" y="56" text-anchor="middle" fill="#8a93a6" font-size="11">1 m</text>
+      <text x="80" y="56" text-anchor="middle" fill="#8a93a6" font-size="11">2 m</text>
+      <text x="120" y="56" text-anchor="middle" fill="#8a93a6" font-size="11">3 m</text>
+      <text x="-14" y="4" text-anchor="end" fill="#8a93a6" font-size="11">+1 m up</text>
+    </g>
+  </g>
+  <line x1="626" y1="220" x2="682" y2="220" stroke="#5ee1ff" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- stage 3 -->
+  <g transform="translate(692,120)">
+    <rect width="250" height="200" rx="16" fill="url(#g1)" stroke="#2a3145"/>
+    <text x="125" y="34" text-anchor="middle" fill="#5ee1ff" font-size="13" letter-spacing="2">3 · DETECT</text>
+    <text x="125" y="72" text-anchor="middle" fill="#e6e9ef" font-size="17" font-weight="600">same 3D detector</text>
+    <text x="125" y="96" text-anchor="middle" fill="#8a93a6" font-size="13">CenterPoint, off the shelf</text>
+    <text x="125" y="136" text-anchor="middle" fill="#e6e9ef" font-size="17" font-weight="600">on real and on re-sim</text>
+    <text x="125" y="160" text-anchor="middle" fill="#8a93a6" font-size="13">600 sweeps · no fine-tuning</text>
+    <text x="125" y="184" text-anchor="middle" fill="#8a93a6" font-size="13">boxes, scores, classes</text>
+  </g>
+  <line x1="952" y1="220" x2="1008" y2="220" stroke="#5ee1ff" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- stage 4 -->
+  <g transform="translate(1018,120)">
+    <rect width="340" height="200" rx="16" fill="url(#g1)" stroke="#5ee1ff" stroke-opacity="0.6"/>
+    <text x="170" y="34" text-anchor="middle" fill="#5ee1ff" font-size="13" letter-spacing="2">4 · AGREE?</text>
+    <text x="170" y="72" text-anchor="middle" fill="#e6e9ef" font-size="17" font-weight="600">match real ↔ re-sim boxes</text>
+    <text x="170" y="96" text-anchor="middle" fill="#8a93a6" font-size="13">Hungarian, 2 m centers · bootstrap CIs</text>
+    <text x="170" y="150" text-anchor="middle" fill="#5ee1ff" font-size="40" font-weight="700">F1 0.59 → 0.55</text>
+    <text x="170" y="180" text-anchor="middle" fill="#8a93a6" font-size="13">true pose → 3 m sideways · 10 scenes · 100 scans/point</text>
+  </g>
+
+  <text x="700" y="372" text-anchor="middle" fill="#8a93a6" font-size="13">finding: re-simulated lidar fails by omission, not hallucination (precision 0.74 → 0.67, recall 0.51 → 0.45) · raising the sensor 1 m hurts more than sliding it 3 m · fidelity predicts agreement across scenes (ρ = −0.86)</text>
+  <text x="700" y="398" text-anchor="middle" fill="#3e4760" font-size="12">github.com/YuvrajPuyam/echogap · built on neurad-studio (Zenseact) · fix for lidar rendering upstreamed as PRs #92 / #93</text>
+</svg>
