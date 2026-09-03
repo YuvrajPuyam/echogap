@@ -4,7 +4,7 @@
 
 EchoGap is an open, installable benchmark for neural lidar re-simulation. It trains a scene model on a real driving log, renders the lidar sweep again from the original *and from displaced* sensor poses, runs the same off-the-shelf 3D detector on real and rendered sweeps, and reports **detection agreement as a function of sensor displacement**.
 
-Status: v0.1 — protocol frozen, first full run on PandaSet with SplatAD in progress. Numbers below are filled in from that run.
+Status: v0.1 — protocol frozen; results below are from the first full run (PandaSet, SplatAD).
 
 ## Why
 
@@ -25,13 +25,21 @@ EchoGap's claim is deliberately narrow: **first open, installable detector-agree
 
 ## Results
 
-*(filled from run1 — 10 scenes × 10 eval scans × 5 poses)*
+Run 1: 10 scenes × 10 eval scans × 5 sensor poses = 500 rendered sweeps, 100 real sweeps. Mean over 100 scans per cell, bootstrap 95% CI.
 
-Agreement F1 vs lateral displacement (class-agnostic, score ≥ 0.5):
+Detection agreement, real vs rendered (class-agnostic, score ≥ 0.5, 2 m center match):
 
-| offset | 0 m | 1 m | 2 m | 3 m | +1 m vertical |
+| sensor pose | true pose | +1 m lateral | +2 m lateral | +3 m lateral | +1 m vertical |
 |---|---|---|---|---|---|
-| F1 | TBD | TBD | TBD | TBD | TBD |
+| **F1** | **0.59** [0.57, 0.62] | 0.58 [0.55, 0.61] | 0.57 [0.55, 0.60] | 0.55 [0.52, 0.58] | 0.53 [0.51, 0.56] |
+| precision | 0.74 | 0.72 | 0.72 | 0.67 | 0.68 |
+| recall | 0.51 | 0.50 | 0.49 | 0.47 | 0.45 |
+
+![agreement vs displacement](results/run1/agreement_vs_displacement.png)
+
+Reading it: moving the sensor 3 m sideways costs about 4 F1 points (7% relative); raising it 1 m costs 6 — the vertical move hurts more than any lateral one, consistent with the detector's sensitivity to ground-plane height. Rendered detections are precise (0.74 → 0.67) more than they are complete (0.51 → 0.45): the re-simulation rarely invents objects, it drops some. All four threshold/matching variants are in [`results/run1/summary.md`](results/run1/summary.md); the ordering is the same in every one.
+
+The true-pose column is not 1.0 because it is a *held-out* scan (an interpolated novel view) and because the detector itself flickers on low-confidence objects; a same-sweep self-agreement floor is a planned addition.
 
 Rendering fidelity of the same models (rendered vs real sweep, 100 scans): median range error 1.23 cm, ray-drop accuracy 96.7%, intensity RMSE 0.061 — i.e. the reconstructions are as good as the SplatAD paper reports; agreement drops are a viewpoint effect, not a training failure.
 
