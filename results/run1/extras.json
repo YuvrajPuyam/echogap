@@ -1,0 +1,305 @@
+{
+ "rank_correlation": {
+  "n_scenes": 10,
+  "spearman_rangeerr_vs_f1": -0.855,
+  "p": 0.002,
+  "kendall": -0.733,
+  "kendall_p": 0.002,
+  "spearman_raydrop_vs_f1": 0.564,
+  "p_raydrop": 0.09,
+  "per_scene": [
+   {
+    "scene": "001",
+    "median_range_err_cm": 1.31,
+    "f1_true_pose": 0.603
+   },
+   {
+    "scene": "011",
+    "median_range_err_cm": 1.46,
+    "f1_true_pose": 0.373
+   },
+   {
+    "scene": "016",
+    "median_range_err_cm": 0.92,
+    "f1_true_pose": 0.677
+   },
+   {
+    "scene": "028",
+    "median_range_err_cm": 0.24,
+    "f1_true_pose": 0.753
+   },
+   {
+    "scene": "053",
+    "median_range_err_cm": 1.15,
+    "f1_true_pose": 0.623
+   },
+   {
+    "scene": "063",
+    "median_range_err_cm": 2.11,
+    "f1_true_pose": 0.482
+   },
+   {
+    "scene": "084",
+    "median_range_err_cm": 2.16,
+    "f1_true_pose": 0.605
+   },
+   {
+    "scene": "106",
+    "median_range_err_cm": 1.13,
+    "f1_true_pose": 0.653
+   },
+   {
+    "scene": "123",
+    "median_range_err_cm": 0.92,
+    "f1_true_pose": 0.634
+   },
+   {
+    "scene": "158",
+    "median_range_err_cm": 1.44,
+    "f1_true_pose": 0.52
+   }
+  ]
+ },
+ "per_range": [
+  {
+   "offset": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "range_m": [
+    0,
+    20
+   ],
+   "recall": 0.655,
+   "precision": 0.857,
+   "f1": 0.743,
+   "n_real": 806,
+   "n_render": 615
+  },
+  {
+   "offset": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "range_m": [
+    20,
+    40
+   ],
+   "recall": 0.438,
+   "precision": 0.698,
+   "f1": 0.539,
+   "n_real": 1047,
+   "n_render": 656
+  },
+  {
+   "offset": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "range_m": [
+    40,
+    80
+   ],
+   "recall": 0.371,
+   "precision": 0.583,
+   "f1": 0.454,
+   "n_real": 353,
+   "n_render": 228
+  },
+  {
+   "offset": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "range_m": [
+    0,
+    20
+   ],
+   "recall": 0.525,
+   "precision": 0.812,
+   "f1": 0.638,
+   "n_real": 806,
+   "n_render": 521
+  },
+  {
+   "offset": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "range_m": [
+    20,
+    40
+   ],
+   "recall": 0.446,
+   "precision": 0.636,
+   "f1": 0.525,
+   "n_real": 1047,
+   "n_render": 729
+  },
+  {
+   "offset": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "range_m": [
+    40,
+    80
+   ],
+   "recall": 0.32,
+   "precision": 0.485,
+   "f1": 0.386,
+   "n_real": 353,
+   "n_render": 239
+  },
+  {
+   "offset": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "range_m": [
+    0,
+    20
+   ],
+   "recall": 0.655,
+   "precision": 0.816,
+   "f1": 0.727,
+   "n_real": 806,
+   "n_render": 642
+  },
+  {
+   "offset": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "range_m": [
+    20,
+    40
+   ],
+   "recall": 0.424,
+   "precision": 0.694,
+   "f1": 0.526,
+   "n_real": 1047,
+   "n_render": 643
+  },
+  {
+   "offset": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "range_m": [
+    40,
+    80
+   ],
+   "recall": 0.346,
+   "precision": 0.582,
+   "f1": 0.434,
+   "n_real": 353,
+   "n_render": 213
+  },
+  {
+   "offset": [
+    0.0,
+    2.0,
+    0.0
+   ],
+   "range_m": [
+    0,
+    20
+   ],
+   "recall": 0.649,
+   "precision": 0.839,
+   "f1": 0.732,
+   "n_real": 806,
+   "n_render": 621
+  },
+  {
+   "offset": [
+    0.0,
+    2.0,
+    0.0
+   ],
+   "range_m": [
+    20,
+    40
+   ],
+   "recall": 0.419,
+   "precision": 0.688,
+   "f1": 0.521,
+   "n_real": 1047,
+   "n_render": 641
+  },
+  {
+   "offset": [
+    0.0,
+    2.0,
+    0.0
+   ],
+   "range_m": [
+    40,
+    80
+   ],
+   "recall": 0.314,
+   "precision": 0.514,
+   "f1": 0.39,
+   "n_real": 353,
+   "n_render": 216
+  },
+  {
+   "offset": [
+    0.0,
+    3.0,
+    0.0
+   ],
+   "range_m": [
+    0,
+    20
+   ],
+   "recall": 0.625,
+   "precision": 0.824,
+   "f1": 0.711,
+   "n_real": 806,
+   "n_render": 609
+  },
+  {
+   "offset": [
+    0.0,
+    3.0,
+    0.0
+   ],
+   "range_m": [
+    20,
+    40
+   ],
+   "recall": 0.406,
+   "precision": 0.626,
+   "f1": 0.493,
+   "n_real": 1047,
+   "n_render": 682
+  },
+  {
+   "offset": [
+    0.0,
+    3.0,
+    0.0
+   ],
+   "range_m": [
+    40,
+    80
+   ],
+   "recall": 0.317,
+   "precision": 0.455,
+   "f1": 0.374,
+   "n_real": 353,
+   "n_render": 246
+  }
+ ]
+}

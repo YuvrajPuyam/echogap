@@ -44,9 +44,19 @@ def main():
                 shift = torch.tensor([dx, dy, dz], dtype=lidar.lidar_to_worlds.dtype, device=lidar.lidar_to_worlds.device)
                 lidar.lidar_to_worlds[0, :3, 3] += R @ shift
                 outputs, batch = model.get_outputs_for_lidar(lidar, batch=batch)
-                keep = outputs["points_valid"].reshape(-1) & (outputs["ray_drop_prob"].reshape(-1) < 0.5)
-                pts = outputs["points"].reshape(-1, 3)[keep] + shift
-                inten = (outputs["intensity"].reshape(-1)[keep] * 255.0).clamp(0, 255)
+                # SplatAD returns a [B, H, W, ...] raster with a validity mask; ray-based models (NeuRAD)
+                # return one row per real ray with no mask. Handle both.
+                pts_all = outputs["points"].reshape(-1, 3)
+                keep = torch.ones(len(pts_all), dtype=torch.bool, device=pts_all.device)
+                if "points_valid" in outputs:
+                    keep &= outputs["points_valid"].reshape(-1)
+                if "ray_drop_prob" in outputs:
+                    keep &= outputs["ray_drop_prob"].reshape(-1) < 0.5
+                pts = pts_all[keep] + shift
+                if "intensity" in outputs:
+                    inten = (outputs["intensity"].reshape(-1)[keep] * 255.0).clamp(0, 255)
+                else:
+                    inten = torch.zeros(len(pts), device=pts.device)
                 sweep = torch.cat([pts, inten[:, None], torch.zeros_like(inten)[:, None]], 1).cpu().numpy().astype(np.float32)
                 bp = out / f"{scene}_s{si:02d}_dx{dx:g}_dy{dy:g}_dz{dz:g}.bin"
                 sweep.tofile(bp)
