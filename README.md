@@ -39,7 +39,28 @@ Detection agreement, real vs rendered (class-agnostic, score ≥ 0.5, 2 m center
 
 Reading it: moving the sensor 3 m sideways costs about 4 F1 points (7% relative); raising it 1 m costs 6 — the vertical move hurts more than any lateral one, consistent with the detector's sensitivity to ground-plane height. Rendered detections are precise (0.74 → 0.67) more than they are complete (0.51 → 0.45): the re-simulation rarely invents objects, it drops some. All four threshold/matching variants are in [`results/run1/summary.md`](results/run1/summary.md); the ordering is the same in every one.
 
-The true-pose column is not 1.0 because it is a *held-out* scan (an interpolated novel view) and because the detector itself flickers on low-confidence objects; a same-sweep self-agreement floor is a planned addition.
+The true-pose column is not 1.0 because it is a *held-out* scan (an interpolated novel view) and because the detector itself flickers on low-confidence objects; a same-sweep self-agreement floor is being measured (perturbed real sweeps: 1.2 cm range noise, then +6.5% dropout).
+
+### Does rendering fidelity predict downstream agreement?
+
+Yes, across scenes — strongly. Per-scene median range error (from the SplatAD fidelity table) against per-scene agreement at the true pose:
+
+![fidelity vs agreement](results/run1/fidelity_vs_agreement.png)
+
+Spearman ρ = **−0.86** (p = 0.002, n = 10 scenes); Kendall τ = −0.73. The best-reconstructed scene (028, 0.24 cm) reaches F1 0.75, the worst (063/084, ~2.1 cm) sit near 0.5–0.6. Ray-drop accuracy correlates too but weaker (ρ = +0.56, p = 0.09). So geometric fidelity is a good *ranking* signal for which scenes a detector will trust — but even the best scene tops out at 0.75, a ceiling that fidelity does not explain (see the noise floor above). Scene 011 is the outlier (1.46 cm, F1 0.37) and is worth a look.
+
+### By object range
+
+![agreement by range](results/run1/agreement_by_range.png)
+
+| object range | true pose | +3 m lateral | +1 m vertical |
+|---|---|---|---|
+| 0–20 m | 0.74 | 0.71 | 0.64 |
+| 20–40 m | 0.54 | 0.49 | 0.53 |
+| 40–80 m | 0.45 | 0.37 | 0.39 |
+
+Near objects agree well and barely care about lateral displacement; far objects agree poorly to begin with and lose the most at 3 m (0.45 → 0.37, 18% relative). The vertical move is the reverse: it hurts *near* objects most (0.74 → 0.64), consistent with the ground-plane sensitivity of pillar-based detectors. Per-cell counts are in [`results/run1/extras.json`](results/run1/extras.json).
+
 
 Rendering fidelity of the same models (rendered vs real sweep, 100 scans): median range error 1.23 cm, ray-drop accuracy 96.7%, intensity RMSE 0.061 — i.e. the reconstructions are as good as the SplatAD paper reports; agreement drops are a viewpoint effect, not a training failure.
 
