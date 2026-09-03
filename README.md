@@ -13,7 +13,7 @@
 
 EchoGap is an open, installable benchmark for neural lidar re-simulation. It trains a scene model on a real driving log, renders the lidar sweep again from the original *and from displaced* sensor poses, runs the same off-the-shelf 3D detector on real and rendered sweeps, and reports **detection agreement as a function of sensor displacement**.
 
-Status: v0.1: protocol frozen; results below are from the first full run (PandaSet, SplatAD).
+Status: v0.1. Protocol frozen; results below are from the first full run (PandaSet, SplatAD).
 
 ## Why
 
