@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "echogap"
+version = "0.1.0"
+description = "Detector-agreement benchmark for neural lidar re-simulation (SplatAD / NeuRAD on PandaSet)"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.10"
+authors = [{name = "Yuvraj Puyam", email = "yuvrajpuyam@gmail.com"}]
+dependencies = ["numpy", "scipy", "matplotlib"]
+
+[project.optional-dependencies]
+render = ["torch"]        # plus neurad-studio with the get_outputs_for_lidar fix (PR #93)
+detect = ["mmdet3d>=1.4"] # plus mmcv/mmdet matching your torch/CUDA
+
+[project.scripts]
+echogap-render = "echogap.render:main"
+echogap-detect = "echogap.detect:main"
+echogap-aggregate = "echogap.aggregate:main"
+
+[tool.setuptools.packages.find]
+include = ["echogap*"]
