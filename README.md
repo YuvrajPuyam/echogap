@@ -13,7 +13,7 @@
 
 EchoGap is an open, installable benchmark for neural lidar re-simulation. It trains a scene model on a real driving log, renders the lidar sweep again from the original *and from displaced* sensor poses, runs the same off-the-shelf 3D detector on real and rendered sweeps, and reports **detection agreement as a function of sensor displacement**.
 
-Status: v0.1. Protocol frozen; results below are from the first full run (PandaSet, SplatAD).
+Status: v0.2. Protocol frozen; results below are from two full runs on PandaSet (SplatAD, NeuRAD).
 
 ## Why
 
@@ -57,6 +57,21 @@ Reading it: moving the sensor 3 m sideways costs about 4 F1 points (7% relative)
 | SplatAD re-simulation, true pose | 0.59 [0.57, 0.62] |
 
 So a renderer with *only* the measured geometric error and ray-drop rate would score ≈ 0.91; detector flicker explains under 10 F1 points. The remaining ~32 points between 0.91 and 0.59 are things chamfer-style metrics don't see, intensity texture, point-density micro-structure, whole objects going missing. That gap, not the geometry, is what a lidar re-simulator has to close to be trusted for perception testing. (The true-pose scan is also a held-out, interpolated view, so part of the gap is genuine novel-view error.)
+
+### Second method: NeuRAD
+
+Run 2 repeats the protocol with NeuRAD (the NeRF-based, ray-traced lidar model from the same framework) on the same 10 scenes, scans, poses and detector.
+
+![two methods](docs/media/hero_two_methods.png)
+
+| sensor pose | true pose | +1 m lateral | +2 m lateral | +3 m lateral | +1 m vertical |
+|---|---|---|---|---|---|
+| **SplatAD** F1 | 0.59 [0.57, 0.62] | 0.58 [0.56, 0.61] | 0.57 [0.55, 0.60] | 0.55 [0.52, 0.58] | 0.53 [0.50, 0.56] |
+| SplatAD precision / recall | 0.73 / 0.51 | 0.72 / 0.50 | 0.72 / 0.49 | 0.67 / 0.47 | 0.67 / 0.45 |
+| **NeuRAD** F1 | 0.47 [0.44, 0.49] | 0.48 [0.46, 0.51] | 0.45 [0.43, 0.47] | 0.43 [0.40, 0.45] | 0.47 [0.43, 0.50] |
+| NeuRAD precision / recall | 0.72 / 0.36 | 0.74 / 0.37 | 0.73 / 0.33 | 0.69 / 0.32 | 0.70 / 0.36 |
+
+Three things the second row shows. The benchmark separates the two methods cleanly: SplatAD sits 12 F1 points above NeuRAD at the true pose with non-overlapping intervals, and the gap holds at every displacement. The two fail the same way: precision is identical (about 0.72), so neither invents objects; NeuRAD simply loses more of them (recall 0.36 vs 0.51). And the vertical sensitivity is method-specific: raising the sensor 1 m costs SplatAD 6 points but costs NeuRAD nothing (0.467 vs 0.466), which points at something in the rasterized, tiled scan model rather than at the physics of a higher viewpoint. Raw rows for both runs are in `results/run1/` and `results/run2/`.
 
 ### Does rendering fidelity predict downstream agreement?
 
