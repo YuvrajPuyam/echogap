@@ -15,6 +15,16 @@ EchoGap is an open, installable benchmark for neural lidar re-simulation. It tra
 
 Status: v0.2. Protocol frozen; results below are from two full runs on PandaSet (SplatAD, NeuRAD).
 
+## The reconstructions
+
+The SplatAD scene models the lidar is re-simulated from are full camera+lidar reconstructions. Front-camera renders of three of them, on the driven path (left) and with the camera moved 2 m to the right (right), the same lateral shift the benchmark applies to the lidar:
+
+<p align="center">
+  <img src="docs/media/rgb_seq016_path_vs_lat2m.gif" width="900" alt="PandaSet sequence 016 rendered from a SplatAD reconstruction: the driven path next to the same path with the camera moved 2 m to the right">
+</p>
+
+More scenes (MP4, 1280x360): [001](docs/media/rgb_seq001_path_vs_lat2m.mp4) · [016](docs/media/rgb_seq016_path_vs_lat2m.mp4) · [028](docs/media/rgb_seq028_path_vs_lat2m.mp4). Off the driven path, small floaters appear (for example the white blob right of center in 016). These are the kind of renderer errors that the lidar agreement numbers below measure. The clips are rendered with [`scripts/render_rgb.py`](scripts/render_rgb.py).
+
 ## Why
 
 Lidar re-simulators are scored on rendering metrics (depth error, chamfer, intensity RMSE). Those don't tell you whether a perception stack downstream behaves the same. Detection agreement was introduced for lidar re-sim by LiDARsim (Manivasagam et al., CVPR 2020) and reported by DyNFL (Wu et al., CVPR 2024), but always at the original viewpoints and never as something you can `pip install` and run on open data. On the camera side, "Are NeRFs ready for autonomous driving?" (Lindström et al., CVPR 2024 WAD) measured how detector agreement degrades with lateral shifts; the lidar analog of that curve did not exist. Waabi's "Towards Zero Domain Gap" (ICCV 2023) is the strongest lidar-sim/detector study, on proprietary data.
